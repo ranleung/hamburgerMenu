@@ -13,6 +13,8 @@
 @property (retain, nonatomic) IBOutlet UIButton *burgerButton;
 @property (strong, nonatomic) UIViewController *currentVC;
 @property (strong, nonatomic) UIViewController *burgerVC;
+@property (retain, nonatomic) IBOutlet UITableView *tableView;
+@property (strong, nonatomic) NSArray *teams;
 @property BOOL isActiveBurger;
 
 @end
@@ -27,7 +29,13 @@
     [self addChildViewController:self.burgerVC];
     self.burgerVC.view.frame = self.view.frame;
     [self.view insertSubview:self.burgerVC.view belowSubview:self.burgerButton];
+    [self.view insertSubview:self.tableView.viewForBaselineLayout belowSubview:self.burgerVC.view];
     [self.burgerVC didMoveToParentViewController:self];
+    
+    self.tableView.delegate = self;
+    self.tableView.dataSource = self;
+    
+    self.teams = [[NSArray alloc] initWithObjects: @"49ers",@"Giants",@"Warriors",nil];
     
     self.isActiveBurger = NO;
 }
@@ -46,11 +54,24 @@
     }
 }
 
+-(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+    return self.teams.count;
+}
+
+-(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"CELL" forIndexPath:indexPath];
+    cell.textLabel.text = self.teams[indexPath.row];
+    return cell;
+}
+
+
 
 - (void)dealloc {
     [_burgerButton release];
     [_currentVC release];
     [_burgerVC release];
+    [_teams release];
+    [_tableView release];
     [super dealloc];
 }
 @end
