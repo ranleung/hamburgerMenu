@@ -35,7 +35,7 @@
     self.tableView.delegate = self;
     self.tableView.dataSource = self;
     
-    self.teams = [[NSArray alloc] initWithObjects: @"49ers",@"Giants",@"Warriors",nil];
+    self.teams = [[[NSArray alloc] initWithObjects: @"49ers",@"Giants",@"Warriors",nil] autorelease];
     
     self.isActiveBurger = NO;
 }
@@ -55,7 +55,7 @@
 }
 
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    if (self.teams.count != 0) {
+    if (self.teams.count == 0) {
         return 0;
     } else {
         return self.teams.count;
